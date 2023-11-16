@@ -1,7 +1,7 @@
 import '@mantine/core/styles.css';
 import './App.css'
 import { MantineProvider } from '@mantine/core';
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Employee } from './Pages/Employee/Employee';
 
 function App() {
