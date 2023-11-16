@@ -81,6 +81,14 @@ export const Employee = () => {
     return () => clearInterval(interval);
   }, [time]);
 
+  useEffect(()=>{
+    if(!showWebcam){
+      setTimeout(()=>{
+        setShowWebcam(true)
+      },3000)
+    }
+  },[showWebcam])
+
 
   const capture = useCallback(async () => {
     const imageSrc = webcamRef?.current?.getScreenshot();
