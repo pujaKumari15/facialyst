@@ -46,6 +46,7 @@ export const Employee = () => {
   const [showWebcam, setShowWebcam] = useState(true);
   const [validUser, setValidUser] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [litime, setLitime] = useState("");
 
 
   const [image, setImage] = useState("");
@@ -87,7 +88,7 @@ export const Employee = () => {
     if (!showWebcam) {
       setTimeout(() => {
         setShowWebcam(true)
-      }, 3000)
+      }, 5000)
     }
   }, [showWebcam])
 
@@ -96,6 +97,7 @@ export const Employee = () => {
     setLoading(true)
     const imageSrc = webcamRef?.current?.getScreenshot();
     setImage(imageSrc);
+    setLitime(dayjs().format("HH:mm:ss"));
     const visitorImageName = uuidv4();
     const file = await dataURItoBlob(imageSrc);
     fetch(
@@ -186,11 +188,13 @@ export const Employee = () => {
               </Card.Section>
 
               <Group justify="space-between" mt="md" mb="xs">
-                {validUser ?
-                  <Badge fullWidth color="green" variant="light" size="xl">
+                {true ?
+                  <div style={{display: "flex", flexDirection: "column",width: "100%",
+
+                  }}> <Badge fullWidth color="green" variant="light" size="xl">
                     Welcome {fname} {lname}
-                  </Badge> : <Badge fullWidth color="red" variant="light" size="xl">
-                    User not found, Please contact to your HR
+                  </Badge> <Text>Logged in Successfully ! <br/>Time : {litime}</Text></div>: <Badge fullWidth color="red" variant="light" size="xl">
+                    User not found, Please contact Administator
                   </Badge>
                 }
 
