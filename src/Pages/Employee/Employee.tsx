@@ -188,7 +188,7 @@ export const Employee = () => {
               </Card.Section>
 
               <Group justify="space-between" mt="md" mb="xs">
-                {true ?
+                {validUser ?
                   <div style={{display: "flex", flexDirection: "column",width: "100%",
 
                   }}> <Badge fullWidth color="green" variant="light" size="xl">
