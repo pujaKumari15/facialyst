@@ -45,6 +45,8 @@ export const Employee = () => {
   const [time, setTime] = useState("");
   const [showWebcam, setShowWebcam] = useState(true);
   const [validUser, setValidUser] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   const [image, setImage] = useState("");
   const [fname, setFname] = useState("");
@@ -81,16 +83,17 @@ export const Employee = () => {
     return () => clearInterval(interval);
   }, [time]);
 
-  useEffect(()=>{
-    if(!showWebcam){
-      setTimeout(()=>{
+  useEffect(() => {
+    if (!showWebcam) {
+      setTimeout(() => {
         setShowWebcam(true)
-      },3000)
+      }, 3000)
     }
-  },[showWebcam])
+  }, [showWebcam])
 
 
   const capture = useCallback(async () => {
+    setLoading(true)
     const imageSrc = webcamRef?.current?.getScreenshot();
     setImage(imageSrc);
     const visitorImageName = uuidv4();
@@ -117,8 +120,11 @@ export const Employee = () => {
           setValidUser(false);
         }
         setShowWebcam(false);
+        setLoading(false)
+
       })
       .catch((error: any) => {
+        setLoading(false)
         console.log(error);
       });
     console.log(imageSrc);
@@ -132,25 +138,25 @@ export const Employee = () => {
           {time}
         </Text>
         <Group justify="center">
-            {showWebcam? 
+          {showWebcam ?
             <Paper shadow="xl" radius="xl" withBorder p="lg">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                variant="light"
-                color="red"
-                radius="md"
-                leftSection={<IconDoorEnter size={18} />}
-                style={{ fontSize: "20px" }}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
               >
-                Check out
-              </Button>
-              <Webcam
+                <Button
+                  variant="light"
+                  color="red"
+                  radius="md"
+                  leftSection={<IconDoorEnter size={18} />}
+                  style={{ fontSize: "20px" }}
+                >
+                  Check out
+                </Button>
+                <Webcam
                   audio={false}
                   ref={webcamRef}
                   height={400}
@@ -162,36 +168,37 @@ export const Employee = () => {
                     facingMode: "user",
                   }}
                 />
-              <Button
-                variant="light"
-                color="green"
-                radius="md"
-                rightSection={<IconDoorExit size={18} />}
-                style={{ fontSize: "20px" }}
-                onClick={capture}
-              >
-                Check In
-              </Button>
-            </div>
-          </Paper>: <Card shadow="sm" padding="lg" radius="md" withBorder>
-          <Card.Section>
-            <img src={image}></img>
-          </Card.Section>
+                <Button
+                  variant="light"
+                  color="green"
+                  radius="md"
+                  rightSection={<IconDoorExit size={18} />}
+                  style={{ fontSize: "20px" }}
+                  onClick={capture}
+                  loading={loading}
+                >
+                  Check In
+                </Button>
+              </div>
+            </Paper> : <Card shadow="sm" padding="lg" radius="md" withBorder>
+              <Card.Section>
+                <img src={image}></img>
+              </Card.Section>
 
-          <Group justify="space-between" mt="md" mb="xs">
-            {validUser ? 
-             <Badge fullWidth color="green" variant="light" size="xl">
-             Welcome {fname} {lname}
-           </Badge> :  <Badge fullWidth color="red" variant="light" size="xl">
-             User not found, Please contact to your HR
-           </Badge>
-          }
-           
-          </Group>
-        </Card>}
-         
+              <Group justify="space-between" mt="md" mb="xs">
+                {validUser ?
+                  <Badge fullWidth color="green" variant="light" size="xl">
+                    Welcome {fname} {lname}
+                  </Badge> : <Badge fullWidth color="red" variant="light" size="xl">
+                    User not found, Please contact to your HR
+                  </Badge>
+                }
+
+              </Group>
+            </Card>}
+
         </Group>
-       
+
         <div
           style={{
             display: "flex",
