@@ -179,9 +179,14 @@ export const Employee = () => {
           </Card.Section>
 
           <Group justify="space-between" mt="md" mb="xs">
-            <Badge fullWidth color="green" variant="light" size="xl">
-              Welcome {fname} {lname}
-            </Badge>
+            {validUser ? 
+             <Badge fullWidth color="green" variant="light" size="xl">
+             Welcome {fname} {lname}
+           </Badge> :  <Badge fullWidth color="red" variant="light" size="xl">
+             User not found, Please contact to your HR
+           </Badge>
+          }
+           
           </Group>
         </Card>}
          
