@@ -3,7 +3,7 @@ import { AppShell} from '@mantine/core';
 import { Navbar } from './Navbar';
 
 export function Dashboard() {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened] = useDisclosure();
 
   return (
     <AppShell
