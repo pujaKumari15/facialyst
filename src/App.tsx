@@ -1,11 +1,13 @@
 import '@mantine/core/styles.css';
 import './App.css'
+import 'react-toastify/dist/ReactToastify.css';
 import { MantineProvider } from '@mantine/core';
 import { Routes, Route } from "react-router-dom";
 import { Employee } from './Pages/Employee/Employee';
-import { Navbar } from './Components/Navbar';
-import { Landing } from './Components/Landing';
 import { Dashboard } from './Components/Dashboard';
+import AuthRoute from './Components/AuthRoute';
+import { Login } from './Pages/Login/Login';
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
 
@@ -13,11 +15,12 @@ function App() {
     <MantineProvider defaultColorScheme="dark">
       <Routes>
         <Route path="/" element={<Employee />} />
-        <Route path="/navbar" element={<Navbar />} />
-        <Route path="/landing" element={<Landing />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-
+        <Route path="/login" element={<Login />} />
+        <Route element={<AuthRoute />}>
+            <Route path="/dashboard/*" element={<Dashboard />} />
+          </Route>
       </Routes>
+      <ToastContainer />
     </MantineProvider>
   )
 }
