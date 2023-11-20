@@ -12,9 +12,11 @@ import {
   IconLogout,
 } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
+import { useNavigate } from "react-router-dom";
+
 
 const data = [
-  { link: '', label: 'Employee Registration', icon: IconUserCircle },
+  { link: '/dashboard/employeeRegistration', label: 'Employee Registration', icon: IconUserCircle },
   { link: '', label: 'Entry Scan', icon: IconScan },
   { link: '', label: 'Time Sheet', icon: IconTable },
   { link: '', label: 'Candidate Analysis', icon: IconGraph },
@@ -25,6 +27,7 @@ const data = [
 
 export function Navbar() {
   const [active, setActive] = useState('Billing');
+  const navigate = useNavigate()
 
   const links = data.map((item) => (
     <a
@@ -35,6 +38,7 @@ export function Navbar() {
       onClick={(event) => {
         event.preventDefault();
         setActive(item.label);
+        navigate(item.link);
       }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
