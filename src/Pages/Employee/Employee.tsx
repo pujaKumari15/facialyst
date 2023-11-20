@@ -46,6 +46,7 @@ export const Employee = () => {
   const [showWebcam, setShowWebcam] = useState(true);
   const [validUser, setValidUser] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checkOutSelected,setCheckOutSelected] = useState(false)
   const [litime, setLitime] = useState("");
 
 
@@ -53,11 +54,12 @@ export const Employee = () => {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
 
-  async function authenticate(visitorImageName: string) {
+  async function authenticate(visitorImageName: string, action: string) {
     const requestURL =
       "https://jknhddpe08.execute-api.us-east-2.amazonaws.com/dev/employee?" +
       new URLSearchParams({
         objectKey: `${visitorImageName}.jpeg`,
+        action,
       });
 
     return await fetch(requestURL, {
@@ -88,12 +90,13 @@ export const Employee = () => {
     if (!showWebcam) {
       setTimeout(() => {
         setShowWebcam(true)
+        setCheckOutSelected(false)
       }, 5000)
     }
   }, [showWebcam])
 
 
-  const capture = useCallback(async () => {
+  const capture = useCallback(async (action: string) => {
     setLoading(true)
     const imageSrc = webcamRef?.current?.getScreenshot();
     setImage(imageSrc);
@@ -111,7 +114,7 @@ export const Employee = () => {
       }
     )
       .then(async () => {
-        const response = await authenticate(visitorImageName);
+        const response = await authenticate(visitorImageName, action);
         if (response.Message === "Success") {
           console.log(response["firstName"], response["lastName"]);
           setFname(response["firstName"]);
@@ -155,6 +158,10 @@ export const Employee = () => {
                   radius="md"
                   leftSection={<IconDoorEnter size={18} />}
                   style={{ fontSize: "20px" }}
+                  onClick={() => { 
+                    setCheckOutSelected(true)
+                    capture('checkOut') 
+                  }}
                 >
                   Check out
                 </Button>
@@ -176,7 +183,7 @@ export const Employee = () => {
                   radius="md"
                   rightSection={<IconDoorExit size={18} />}
                   style={{ fontSize: "20px" }}
-                  onClick={capture}
+                  onClick={() => { capture('checkIn') }}
                   loading={loading}
                 >
                   Check In
@@ -189,11 +196,12 @@ export const Employee = () => {
 
               <Group justify="space-between" mt="md" mb="xs">
                 {validUser ?
-                  <div style={{display: "flex", flexDirection: "column",width: "100%",
+                  <div style={{
+                    display: "flex", flexDirection: "column", width: "100%",
 
                   }}> <Badge fullWidth color="green" variant="light" size="xl">
-                    Welcome {fname} {lname}
-                  </Badge> <Text>Logged in Successfully ! <br/>Time : {litime}</Text></div>: <Badge fullWidth color="red" variant="light" size="xl">
+                      {checkOutSelected?`See You ${fname} ${lname}`:`Welcome ${fname} ${lname}`}
+                    </Badge> <Text>{checkOutSelected?'Logged Out Successfully !':'Logged in Successfully !'}<br />Time : {litime}</Text></div> : <Badge fullWidth color="red" variant="light" size="xl">
                     User not found, Please contact Administator
                   </Badge>
                 }
