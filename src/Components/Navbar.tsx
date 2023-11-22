@@ -18,9 +18,9 @@ import { useNavigate } from "react-router-dom";
 const data = [
   { link: '/dashboard/employeeRegistration', label: 'Employee Registration', icon: IconUserCircle },
   { link: '', label: 'Entry Scan', icon: IconScan },
-  { link: '', label: 'Time Sheet', icon: IconTable },
+  { link: '/dashboard/timeSheet', label: 'Time Sheet', icon: IconTable },
   { link: '', label: 'Candidate Analysis', icon: IconGraph },
-  { link: '', label: 'Overall Attandance', icon: IconUsersGroup },
+  { link: '/dashboard/overallAttendance', label: 'Overall Attandance', icon: IconUsersGroup },
   { link: '', label: 'Unauthorized Users', icon: IconIconsOff },
   { link: '', label: 'Food Provision', icon: IconBrandCakephp },
 ];

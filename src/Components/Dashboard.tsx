@@ -4,6 +4,8 @@ import { Navbar } from './Navbar';
 import { Route, Routes } from 'react-router-dom';
 import { EmployeeRegistration } from '../Pages/EmployeeRegistration/EmployeeRegistration';
 import { Employee } from '../Pages/Employee/Employee';
+import { OverallAttendance } from '../Pages/OverallAttendance/OverallAttendance';
+import { TimeSheet } from '../Pages/TimeSheet/TimeSHeet';
 
 export function Dashboard() {
   const [opened] = useDisclosure();
@@ -20,6 +22,8 @@ export function Dashboard() {
       <Routes>
         <Route path="employeeRegistration" element={<EmployeeRegistration />} />
         <Route path="employee" element={<Employee />} />
+        <Route path="overallAttendance" element={<OverallAttendance />} />
+        <Route path="timeSheet" element={<TimeSheet />} />
       </Routes>
       </AppShell.Main>
     </AppShell>
