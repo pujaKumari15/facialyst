@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import { EmployeeRegistration } from '../Pages/EmployeeRegistration/EmployeeRegistration';
 import { Employee } from '../Pages/Employee/Employee';
 import { OverallAttendance } from '../Pages/OverallAttendance/OverallAttendance';
-import { TimeSheet } from '../Pages/TimeSheet/TimeSHeet';
+import { TimeSheet } from '../Pages/TimeSheet/TimeSheet';
 
 export function Dashboard() {
   const [opened] = useDisclosure();
