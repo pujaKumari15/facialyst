@@ -17,12 +17,12 @@ import { useNavigate } from "react-router-dom";
 
 const data = [
   { link: '/dashboard/employeeRegistration', label: 'Employee Registration', icon: IconUserCircle },
-  { link: '', label: 'Entry Scan', icon: IconScan },
+  { link: '/dashboard/entryScan', label: 'Entry Scan', icon: IconScan },
   { link: '/dashboard/timeSheet', label: 'Time Sheet', icon: IconTable },
-  { link: '', label: 'Candidate Analysis', icon: IconGraph },
+  // { link: '', label: 'Candidate Analysis', icon: IconGraph },
   { link: '/dashboard/overallAttendance', label: 'Overall Attandance', icon: IconUsersGroup },
-  { link: '', label: 'Unauthorized Users', icon: IconIconsOff },
-  { link: '', label: 'Food Provision', icon: IconBrandCakephp },
+  // { link: '', label: 'Unauthorized Users', icon: IconIconsOff },
+  // { link: '', label: 'Food Provision', icon: IconBrandCakephp },
 ];
 
 export function Navbar() {

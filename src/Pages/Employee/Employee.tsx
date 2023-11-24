@@ -34,7 +34,11 @@ async function dataURItoBlob(dataURI: any) {
   return new Blob([new Uint8Array(array)], { type: "image/jpeg" });
 }
 
-export const Employee = () => {
+interface Props {
+ showNavbar: boolean
+}
+
+export const Employee = ({showNavbar=true}:Props) => {
   dayjs.extend(localizedFormat);
   const webcamRef: any = useRef(null);
   const { setColorScheme } = useMantineColorScheme();
@@ -46,7 +50,7 @@ export const Employee = () => {
   const [showWebcam, setShowWebcam] = useState(true);
   const [validUser, setValidUser] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [checkOutSelected,setCheckOutSelected] = useState(false)
+  const [checkOutSelected, setCheckOutSelected] = useState(false)
   const [litime, setLitime] = useState("");
 
 
@@ -137,7 +141,7 @@ export const Employee = () => {
 
   return (
     <>
-      <Header />
+      {showNavbar&&<Header />}
       <Container size={"sm"}>
         <Text ta={"center"} p={"15px"} size="xl" fw={"900"}>
           {time}
@@ -158,9 +162,9 @@ export const Employee = () => {
                   radius="md"
                   leftSection={<IconDoorEnter size={18} />}
                   style={{ fontSize: "20px" }}
-                  onClick={() => { 
+                  onClick={() => {
                     setCheckOutSelected(true)
-                    capture('checkOut') 
+                    capture('checkOut')
                   }}
                 >
                   Check out
@@ -200,8 +204,8 @@ export const Employee = () => {
                     display: "flex", flexDirection: "column", width: "100%",
 
                   }}> <Badge fullWidth color="green" variant="light" size="xl">
-                      {checkOutSelected?`See You ${fname} ${lname}`:`Welcome ${fname} ${lname}`}
-                    </Badge> <Text>{checkOutSelected?'Logged Out Successfully !':'Logged in Successfully !'}<br />Time : {litime}</Text></div> : <Badge fullWidth color="red" variant="light" size="xl">
+                      {checkOutSelected ? `See You ${fname} ${lname}` : `Welcome ${fname} ${lname}`}
+                    </Badge> <Text>{checkOutSelected ? 'Logged Out Successfully !' : 'Logged in Successfully !'}<br />Time : {litime}</Text></div> : <Badge fullWidth color="red" variant="light" size="xl">
                     User not found, Please contact Administator
                   </Badge>
                 }
@@ -210,7 +214,6 @@ export const Employee = () => {
             </Card>}
 
         </Group>
-
         <div
           style={{
             display: "flex",
