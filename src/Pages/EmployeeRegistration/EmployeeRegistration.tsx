@@ -5,6 +5,7 @@ import {
   FileButton,
   Group,
   Input,
+  Modal,
   Paper,
   Select,
   SimpleGrid,
@@ -21,6 +22,7 @@ import classes from "./EmployeeRegistration.module.css";
 import Webcam from "react-webcam";
 import { toast } from "react-toastify";
 import { FileWithPath } from "@mantine/dropzone";
+import { useDisclosure } from "@mantine/hooks";
 
 async function dataURItoBlob(dataURI: any) {
   var binary = atob(dataURI.split(",")[1]);
@@ -34,14 +36,17 @@ async function dataURItoBlob(dataURI: any) {
 export function EmployeeRegistration() {
   const { user } = useAuthData();
   const webcamRef: any = useRef(null);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const [filesList, setFilesList] = useState([]);
   const [listLoading, setListLoading] = useState(false);
+  const [dept,setDept] = useState('')
   const [fileAdded, setFileAdded] = useState(false);
   const [file, setFile] = useState<Blob | File | null>();
   const [fileUpload, setFileUpload] = useState<File | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [enableSubmit,setEnableSubmit] = useState(true)
 
   const fileUploadedSignal = async () => {
     const requestURL =
@@ -63,7 +68,9 @@ export function EmployeeRegistration() {
       })
       .then((data) => {
         setFilesList(data.data);
-        console.log(data);
+        setFirstName("")
+        setLastName("")
+        setDept("")
       })
       .catch((error) => console.error(error));
 
@@ -81,8 +88,11 @@ export function EmployeeRegistration() {
   };
 
   const processUpload = async () => {
+
+    console.log(firstName,lastName)
+
     await fetch(
-      `https://jknhddpe08.execute-api.us-east-2.amazonaws.com/dev/employee.images.store/${firstName}_${lastName}.jpeg`,
+      `https://jknhddpe08.execute-api.us-east-2.amazonaws.com/dev/employee.images.store/${firstName.trim()}_${lastName.trim()}.jpeg`,
       {
         method: "PUT",
         headers: {
@@ -133,6 +143,14 @@ export function EmployeeRegistration() {
     fileUploadedSignal();
   }, []);
 
+  useEffect(() => {
+
+    if(file || fileUpload){
+      setEnableSubmit(false)
+    }
+
+  }, [file,fileUpload]);
+
   return (
     <>
       <Container>
@@ -164,10 +182,16 @@ export function EmployeeRegistration() {
             <Select
               mt="md"
               comboboxProps={{ withinPortal: true }}
-              data={["Dept 1", "Dept 2", "Dept 3", "Dept 4"]}
+              data={["Tech", "Marketing", "Finance", "HR"]}
+              
+              defaultChecked
               placeholder="Select the Employee's Department"
               label="Department"
               classNames={classes}
+              value={dept}
+              onChange={(e)=>{
+                setDept(e??" ")
+              }}
             />
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div>
@@ -194,6 +218,9 @@ export function EmployeeRegistration() {
                   size="md"
                   variant="filled"
                   color="orange"
+                  onClick={()=>{
+                    open()
+                  }}
                 >
                   Use Camera
                 </Button>
@@ -205,6 +232,7 @@ export function EmployeeRegistration() {
                   size="md"
                   variant="filled"
                   color="green"
+                  disabled={enableSubmit}
                   onClick={()=>{
                     if (fileUpload){
                       processFileUpload()
@@ -222,18 +250,28 @@ export function EmployeeRegistration() {
         <br />
         <SimpleGrid cols={1}>
           <div>
-            <SimpleGrid cols={2}>
-              {/* <UploadComponent fileUploadedSignal={fileUploadedSignal} /> */}
-              <Paper shadow="xl" radius="xl" withBorder p="lg">
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  {!fileAdded ? (
-                    <>
+            <Paper shadow="xl" p="xl">
+              <Text fw={700} size="xl">
+                List of Employees
+              </Text>
+              <FilesList
+                list={filesList ?? []}
+                listLoading={listLoading}
+                setListLoading={setListLoading}
+                fileUploadedSignal={fileUploadedSignal}
+              />
+            </Paper>
+          </div>
+        </SimpleGrid>
+      </Container>
+      <Modal opened={opened} onClose={close} withCloseButton={false} centered 
+      
+      overlayProps={{
+        backgroundOpacity: 0.75,
+        blur: 3,
+      }}
+      >
+      <div style={{display:'flex', flexDirection:'column'}}>
                       <Webcam
                         audio={false}
                         height={400}
@@ -254,89 +292,13 @@ export function EmployeeRegistration() {
                         style={{ fontSize: "20px" }}
                         onClick={() => {
                           capture();
+                          close()
                         }}
                       >
                         Scan
                       </Button>
-                    </>
-                  ) : (
-                    <Group justify="center" gap="xl" mih={220}>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Text size="lg" fw={500} ta={"center"} mb={"10px"}>
-                          Add Name
-                        </Text>
-                        <Group>
-                          <Input
-                            placeholder="First Name"
-                            value={firstName}
-                            onChange={(e) => {
-                              setFirstName(e.target.value);
-                            }}
-                          />
-                          <Input
-                            placeholder="Last Name"
-                            value={lastName}
-                            onChange={(e) => {
-                              setLastName(e.target.value);
-                            }}
-                          />
-                        </Group>
-                        <div>
-                          <Button
-                            m={"10px"}
-                            fw={700}
-                            size="md"
-                            variant="light"
-                            color="blue"
-                            rightSection={<IconUpload size={14} />}
-                            onClick={() => {
-                              processUpload();
-                            }}
-                          >
-                            Upload
-                          </Button>
-                          <Button
-                            m={"10px"}
-                            fw={700}
-                            size="md"
-                            variant="light"
-                            color="red"
-                            rightSection={<IconX size={14} />}
-                            onClick={() => {
-                              setFileAdded(false);
-                            }}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                      </div>
-                    </Group>
-                  )}
-                </div>
-              </Paper>
-            </SimpleGrid>
-          </div>
-          <div>
-            <Paper shadow="xl" p="xl">
-              <Text fw={700} size="xl">
-                List of Employees
-              </Text>
-              <FilesList
-                list={filesList ?? []}
-                listLoading={listLoading}
-                setListLoading={setListLoading}
-                fileUploadedSignal={fileUploadedSignal}
-              />
-            </Paper>
-          </div>
-        </SimpleGrid>
-      </Container>
+                    </div>
+      </Modal>
     </>
   );
 }
