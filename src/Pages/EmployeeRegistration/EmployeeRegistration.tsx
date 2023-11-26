@@ -1,11 +1,23 @@
-import { Button, Center, Container, Group, Input, Paper, Select, SimpleGrid, Text, TextInput } from "@mantine/core";
+import {
+  Button,
+  Center,
+  Container,
+  FileButton,
+  Group,
+  Input,
+  Paper,
+  Select,
+  SimpleGrid,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { FilesList } from "../../Components/FilesList";
 import { UploadComponent } from "../../Components/UploadComponent";
 import { useEffect, useRef, useState } from "react";
 // import { getFilesList } from "../../services/api";
 import useAuthData from "../../zustandStore/useAuthData";
 import { IconScan, IconUpload, IconX } from "@tabler/icons-react";
-import classes from './EmployeeRegistration.module.css';
+import classes from "./EmployeeRegistration.module.css";
 import Webcam from "react-webcam";
 import { toast } from "react-toastify";
 import { FileWithPath } from "@mantine/dropzone";
@@ -23,23 +35,20 @@ export function EmployeeRegistration() {
   const { user } = useAuthData();
   const webcamRef: any = useRef(null);
 
-
   const [filesList, setFilesList] = useState([]);
   const [listLoading, setListLoading] = useState(false);
-  const [fileAdded, setFileAdded] = useState(false)
-  const [file,setFile] = useState<Blob>();
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-
-
+  const [fileAdded, setFileAdded] = useState(false);
+  const [file, setFile] = useState<Blob | File | null>();
+  const [fileUpload, setFileUpload] = useState<File | null>(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const fileUploadedSignal = async () => {
-
     const requestURL =
       "https://jknhddpe08.execute-api.us-east-2.amazonaws.com/dev/employee?" +
       new URLSearchParams({
         objectKey: ``,
-        action: 'getAllEmployees',
+        action: "getAllEmployees",
       });
 
     await fetch(requestURL, {
@@ -53,8 +62,8 @@ export function EmployeeRegistration() {
         return response.json();
       })
       .then((data) => {
-        setFilesList(data.data)
-        console.log(data)
+        setFilesList(data.data);
+        console.log(data);
       })
       .catch((error) => console.error(error));
 
@@ -67,14 +76,11 @@ export function EmployeeRegistration() {
   const capture = async () => {
     const imageSrc = webcamRef?.current?.getScreenshot();
     const file = await dataURItoBlob(imageSrc);
-    setFile(file)
-    setFileAdded(true)
+    setFile(file);
+    setFileAdded(true);
+  };
 
-   
-
-  }
-
-  const processUpload = async ()=>{
+  const processUpload = async () => {
     await fetch(
       `https://jknhddpe08.execute-api.us-east-2.amazonaws.com/dev/employee.images.store/${firstName}_${lastName}.jpeg`,
       {
@@ -84,8 +90,7 @@ export function EmployeeRegistration() {
         },
         body: file,
       }
-    )
-
+    );
 
     toast.success(
       <Text fw={"700"} c={"green"}>
@@ -93,15 +98,36 @@ export function EmployeeRegistration() {
       </Text>
     );
 
-    setFileAdded(false)
-
-
-
+    setFileAdded(false);
 
     setTimeout(async () => {
       await fileUploadedSignal();
-    }, 3000)
-  }
+    }, 3000);
+  };
+  const processFileUpload = async () => {
+    try {
+      await fetch(
+        `https://jknhddpe08.execute-api.us-east-2.amazonaws.com/dev/employee.images.store/${firstName}_${lastName}.jpeg`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "image/jpeg",
+          },
+          body: fileUpload,
+        }
+      );
+      toast.success(
+        <Text fw={"700"} c={"green"}>
+          Face Recognize Complete
+        </Text>
+      );
+      setTimeout(async () => {
+        await fileUploadedSignal();
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fileUploadedSignal();
@@ -111,42 +137,93 @@ export function EmployeeRegistration() {
     <>
       <Container>
         <div>
-        <Paper shadow="xl" p="xl">
-      <Text fw={700} size="xl">Register a New Employee</Text>
-      <TextInput label="First Name" placeholder="Enter the Employee's First name" classNames={classes} />
-      <br/>
-        <TextInput label="Last Name" placeholder="Enter the Employee's Last name" classNames={classes} />
+          <Paper shadow="xl" p="xl">
+            <Text fw={700} size="xl">
+              Register a New Employee
+            </Text>
+            <TextInput
+              label="First Name"
+              placeholder="Enter the Employee's First name"
+              classNames={classes}
+              value={firstName}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+            />
+            <br />
+            <TextInput
+              label="Last Name"
+              placeholder="Enter the Employee's Last name"
+              classNames={classes}
+              value={lastName}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+            />
 
-<Select
-  mt="md"
-  comboboxProps={{ withinPortal: true }}
-  data={['Dept 1', 'Dept 2', 'Dept 3', 'Dept 4']}
-  placeholder="Select the Employee's Department"
-  label="Department"
-  classNames={classes}
-/>
-<div>
-                      <Button m={"10px"} fw={700} size="md" variant="filled" color="blue" rightSection={<IconUpload size={14} />} >
-                        Upload Photo
-                      </Button>
-                      <Button
-                        m={"10px"}
-                        fw={700}
-                        size="md"
-                        variant="filled"
-                        color="green"
-                        rightSection={<IconX size={14} />}
-                      >
-                        Use Camera
-                      </Button>
-                    </div>
-    </Paper>
+            <Select
+              mt="md"
+              comboboxProps={{ withinPortal: true }}
+              data={["Dept 1", "Dept 2", "Dept 3", "Dept 4"]}
+              placeholder="Select the Employee's Department"
+              label="Department"
+              classNames={classes}
+            />
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <FileButton
+                  onChange={(file) => {
+                    setFileUpload(file);
+                    toast.success(
+                      <Text fw={"700"} c={"green"}>
+                         File Uploaded
+                      </Text>
+                  );
+                  }}
+                  accept="image/jpeg"
+                >
+                  {(props) => <Button {...props} 
+                  fw={700}
+                  size="md"
+                  variant="filled">Upload Photo</Button>}
+                </FileButton>
+
+                <Button
+                  m={"10px"}
+                  fw={700}
+                  size="md"
+                  variant="filled"
+                  color="orange"
+                >
+                  Use Camera
+                </Button>
+              </div>
+              <div>
+                <Button
+                  m={"10px"}
+                  fw={700}
+                  size="md"
+                  variant="filled"
+                  color="green"
+                  onClick={()=>{
+                    if (fileUpload){
+                      processFileUpload()
+                    }else{
+                      processUpload()
+                    }
+                  }}
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+          </Paper>
         </div>
-        <br/>
+        <br />
         <SimpleGrid cols={1}>
           <div>
-             <SimpleGrid cols={2}>
-              <UploadComponent fileUploadedSignal={fileUploadedSignal} />
+            <SimpleGrid cols={2}>
+              {/* <UploadComponent fileUploadedSignal={fileUploadedSignal} /> */}
               <Paper shadow="xl" radius="xl" withBorder p="lg">
                 <div
                   style={{
@@ -155,74 +232,107 @@ export function EmployeeRegistration() {
                     justifyContent: "center",
                   }}
                 >
-                  {!fileAdded?
-                  <>
-                    <Webcam
-                      audio={false}
-                      height={400}
-                      screenshotFormat="image/jpeg"
-                      width={400}
-                      ref={webcamRef}
-                      videoConstraints={{
-                        width: 400,
-                        height: 350,
-                        facingMode: "user",
-                      }}
-                    />
-                    <Button
-                      variant="light"
-                      color="green"
-                      radius="md"
-                      rightSection={<IconScan size={18} />}
-                      style={{ fontSize: "20px" }}
-                      onClick={() => {
-                          capture()
-                      }}
-                    >
-                      Scan
-                    </Button>
-                  </>:<Group justify="center" gap="xl" mih={220}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <Text size="lg" fw={500} ta={"center"} mb={'10px'}>
-                      Add Name
-                    </Text>
-                    <Group>
-                      <Input placeholder="First Name" value={firstName} onChange={(e) => {
-                        setFirstName(e.target.value)
-                      }} />
-                      <Input placeholder="Last Name" value={lastName} onChange={(e) => {
-                        setLastName(e.target.value)
-                      }} />
-                    </Group>
-                    <div>
-                      <Button m={"10px"} fw={700} size="md" variant="light" color="blue" rightSection={<IconUpload size={14} />} onClick={() => { processUpload() }}>
-                        Upload
-                      </Button>
+                  {!fileAdded ? (
+                    <>
+                      <Webcam
+                        audio={false}
+                        height={400}
+                        screenshotFormat="image/jpeg"
+                        width={400}
+                        ref={webcamRef}
+                        videoConstraints={{
+                          width: 400,
+                          height: 350,
+                          facingMode: "user",
+                        }}
+                      />
                       <Button
-                        m={"10px"}
-                        fw={700}
-                        size="md"
                         variant="light"
-                        color="red"
-                        rightSection={<IconX size={14} />}
+                        color="green"
+                        radius="md"
+                        rightSection={<IconScan size={18} />}
+                        style={{ fontSize: "20px" }}
                         onClick={() => {
-                            setFileAdded(false)
+                          capture();
                         }}
                       >
-                        Cancel
+                        Scan
                       </Button>
-                    </div>
-                  </div>
-                </Group>}
+                    </>
+                  ) : (
+                    <Group justify="center" gap="xl" mih={220}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text size="lg" fw={500} ta={"center"} mb={"10px"}>
+                          Add Name
+                        </Text>
+                        <Group>
+                          <Input
+                            placeholder="First Name"
+                            value={firstName}
+                            onChange={(e) => {
+                              setFirstName(e.target.value);
+                            }}
+                          />
+                          <Input
+                            placeholder="Last Name"
+                            value={lastName}
+                            onChange={(e) => {
+                              setLastName(e.target.value);
+                            }}
+                          />
+                        </Group>
+                        <div>
+                          <Button
+                            m={"10px"}
+                            fw={700}
+                            size="md"
+                            variant="light"
+                            color="blue"
+                            rightSection={<IconUpload size={14} />}
+                            onClick={() => {
+                              processUpload();
+                            }}
+                          >
+                            Upload
+                          </Button>
+                          <Button
+                            m={"10px"}
+                            fw={700}
+                            size="md"
+                            variant="light"
+                            color="red"
+                            rightSection={<IconX size={14} />}
+                            onClick={() => {
+                              setFileAdded(false);
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    </Group>
+                  )}
                 </div>
-
               </Paper>
-            </SimpleGrid> 
+            </SimpleGrid>
           </div>
           <div>
             <Paper shadow="xl" p="xl">
-          <Text fw={700} size="xl">List of Employees</Text>
-            <FilesList list={filesList ?? []} listLoading={listLoading} setListLoading={setListLoading} fileUploadedSignal={fileUploadedSignal} />
+              <Text fw={700} size="xl">
+                List of Employees
+              </Text>
+              <FilesList
+                list={filesList ?? []}
+                listLoading={listLoading}
+                setListLoading={setListLoading}
+                fileUploadedSignal={fileUploadedSignal}
+              />
             </Paper>
           </div>
         </SimpleGrid>

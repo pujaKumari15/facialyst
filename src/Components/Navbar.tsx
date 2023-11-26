@@ -20,7 +20,7 @@ const data = [
   { link: '/dashboard/entryScan', label: 'Entry Scan', icon: IconScan },
   { link: '/dashboard/timeSheet', label: 'Time Sheet', icon: IconTable },
   { link: '/dashboard/overallAttendance', label: 'Overall Attandance', icon: IconUsersGroup },
-  { link: '', label: 'Department Analysis', icon: IconGraph },
+  { link: '/dashboard/departmentAnalysis', label: 'Department Analysis', icon: IconGraph },
   // { link: '', label: 'Unauthorized Users', icon: IconIconsOff },
   // { link: '', label: 'Food Provision', icon: IconBrandCakephp },
 ];
