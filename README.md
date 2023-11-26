@@ -2,7 +2,7 @@
 *	University Name: San Jose State University http://www.sjsu.edu/ 
 *	Course: [Cloud Technologies](http://info.sjsu.edu/web-dbgen/catalog/courses/CMPE281.html)
 *	Professor: [Sanjay Garje](https://www.linkedin.com/in/sanjaygarje/)
-*	Student: [Dheeraj Nandigama](https://www.linkedin.com/in/dheeraj-nandigama/) | [Puja Singh]() | [Asish Raju](https://www.linkedin.com/in/asishraju/)
+*	Student: [Dheeraj Nandigama](https://www.linkedin.com/in/dheeraj-nandigama/) | [Puja Kumari](https://www.linkedin.com/in/pujakumari30/) | [Asish Raju](https://www.linkedin.com/in/asishraju/)
 
 ### Project Introduction
 
