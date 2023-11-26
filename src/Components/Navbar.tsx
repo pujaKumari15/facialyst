@@ -19,8 +19,8 @@ const data = [
   { link: '/dashboard/employeeRegistration', label: 'Employee Registration', icon: IconUserCircle },
   { link: '/dashboard/entryScan', label: 'Entry Scan', icon: IconScan },
   { link: '/dashboard/timeSheet', label: 'Time Sheet', icon: IconTable },
-  // { link: '', label: 'Candidate Analysis', icon: IconGraph },
   { link: '/dashboard/overallAttendance', label: 'Overall Attandance', icon: IconUsersGroup },
+  { link: '', label: 'Department Analysis', icon: IconGraph },
   // { link: '', label: 'Unauthorized Users', icon: IconIconsOff },
   // { link: '', label: 'Food Provision', icon: IconBrandCakephp },
 ];

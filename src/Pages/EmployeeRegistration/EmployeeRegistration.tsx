@@ -1,10 +1,11 @@
-import { Button, Container, Group, Input, Paper, SimpleGrid, Text } from "@mantine/core";
+import { Button, Center, Container, Group, Input, Paper, Select, SimpleGrid, Text, TextInput } from "@mantine/core";
 import { FilesList } from "../../Components/FilesList";
 import { UploadComponent } from "../../Components/UploadComponent";
 import { useEffect, useRef, useState } from "react";
 // import { getFilesList } from "../../services/api";
 import useAuthData from "../../zustandStore/useAuthData";
 import { IconScan, IconUpload, IconX } from "@tabler/icons-react";
+import classes from './EmployeeRegistration.module.css';
 import Webcam from "react-webcam";
 import { toast } from "react-toastify";
 import { FileWithPath } from "@mantine/dropzone";
@@ -109,9 +110,42 @@ export function EmployeeRegistration() {
   return (
     <>
       <Container>
+        <div>
+        <Paper shadow="xl" p="xl">
+      <Text fw={700} size="xl">Register a New Employee</Text>
+      <TextInput label="First Name" placeholder="Enter the Employee's First name" classNames={classes} />
+      <br/>
+        <TextInput label="Last Name" placeholder="Enter the Employee's Last name" classNames={classes} />
+
+<Select
+  mt="md"
+  comboboxProps={{ withinPortal: true }}
+  data={['Dept 1', 'Dept 2', 'Dept 3', 'Dept 4']}
+  placeholder="Select the Employee's Department"
+  label="Department"
+  classNames={classes}
+/>
+<div>
+                      <Button m={"10px"} fw={700} size="md" variant="filled" color="blue" rightSection={<IconUpload size={14} />} >
+                        Upload Photo
+                      </Button>
+                      <Button
+                        m={"10px"}
+                        fw={700}
+                        size="md"
+                        variant="filled"
+                        color="green"
+                        rightSection={<IconX size={14} />}
+                      >
+                        Use Camera
+                      </Button>
+                    </div>
+    </Paper>
+        </div>
+        <br/>
         <SimpleGrid cols={1}>
           <div>
-            <SimpleGrid cols={2}>
+             <SimpleGrid cols={2}>
               <UploadComponent fileUploadedSignal={fileUploadedSignal} />
               <Paper shadow="xl" radius="xl" withBorder p="lg">
                 <div
@@ -183,10 +217,13 @@ export function EmployeeRegistration() {
                 </div>
 
               </Paper>
-            </SimpleGrid>
+            </SimpleGrid> 
           </div>
           <div>
+            <Paper shadow="xl" p="xl">
+          <Text fw={700} size="xl">List of Employees</Text>
             <FilesList list={filesList ?? []} listLoading={listLoading} setListLoading={setListLoading} fileUploadedSignal={fileUploadedSignal} />
+            </Paper>
           </div>
         </SimpleGrid>
       </Container>
