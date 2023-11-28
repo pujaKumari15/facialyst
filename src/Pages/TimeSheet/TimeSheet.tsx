@@ -92,7 +92,7 @@ export const TimeSheet = () => {
 
     const items = Object.keys(mergedData).map((eachData: string) => {
 
-        const rows = mergedData[eachData].sort((a:string,b:string)=>b.time-a.time).map((element: any) => (
+        const rows = mergedData[eachData].sort((a:any,b:any)=>b.time-a.time).map((element: any) => (
             <Table.Tr key={element.uuid}>
                 <Table.Td>
                     <Avatar size={40} src={element.url} radius={26} />

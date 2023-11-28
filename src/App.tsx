@@ -14,7 +14,7 @@ function App() {
   return (
     <MantineProvider defaultColorScheme="dark">
       <Routes>
-        <Route path="/" element={<Employee />} />
+        <Route path="/" element={<Employee showNavbar />} />
         <Route path="/login" element={<Login />} />
         <Route element={<AuthRoute />}>
             <Route path="/dashboard/*" element={<Dashboard />} />
