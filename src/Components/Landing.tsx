@@ -1,4 +1,4 @@
-import { Overlay, Container, Title, Button, Text } from '@mantine/core';
+import { Overlay, Container, Title, Button, Text, Group } from '@mantine/core';
 import { useNavigate } from 'react-router';
 import classes from './Landing.module.css';
 
@@ -13,7 +13,7 @@ export function Landing() {
     <div className={classes.hero}>
       <Overlay
         gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 40%)"
-        opacity={1}
+        opacity={0.5}
         zIndex={0}
       />
       <Container className={classes.container} size="md">
@@ -24,9 +24,14 @@ export function Landing() {
         Facialyst, where precision meets efficiency, handling thousands of faces seamlessly.
         </Text>
 
-        <Button variant="gradient" size="xl" radius="xl" className={classes.control} onClick={onStarted}>
-          Get started
+        <Group justify = "center">
+        <Button variant="gradient" gradient={{ from: 'blue', to: 'cyan', deg: 90 }} size="xl" radius="sm" className={classes.control} onClick={onStarted}>
+          Entry Scan
         </Button>
+        <Button variant="gradient"  gradient={{ from: 'teal', to: 'green', deg: 90 }} size="xl" radius="sm" className={classes.control} onClick={onStarted}>
+          Login as Administator
+        </Button>
+        </Group>
       </Container>
     </div>
   );

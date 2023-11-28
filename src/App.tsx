@@ -8,6 +8,7 @@ import { Dashboard } from './Components/Dashboard';
 import AuthRoute from './Components/AuthRoute';
 import { Login } from './Pages/Login/Login';
 import { ToastContainer, toast } from 'react-toastify';
+import { Landing } from './Components/Landing';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Employee showNavbar />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/landing" element = {<Landing />} />
         <Route element={<AuthRoute />}>
             <Route path="/dashboard/*" element={<Dashboard />} />
           </Route>
