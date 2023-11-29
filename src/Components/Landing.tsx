@@ -6,8 +6,11 @@ export function Landing() {
 
     const navigate = useNavigate();  
     const onStarted = () => {
-        navigate("/navbar")
+        navigate("/employee")
   }  
+  const onLogin = () => {
+    navigate("/login")
+} 
 
   return (
     <div className={classes.hero}>
@@ -28,7 +31,7 @@ export function Landing() {
         <Button variant="gradient" gradient={{ from: 'blue', to: 'cyan', deg: 90 }} size="xl" radius="sm" className={classes.control} onClick={onStarted}>
           Entry Scan
         </Button>
-        <Button variant="gradient"  gradient={{ from: 'teal', to: 'green', deg: 90 }} size="xl" radius="sm" className={classes.control} onClick={onStarted}>
+        <Button variant="gradient"  gradient={{ from: 'teal', to: 'green', deg: 90 }} size="xl" radius="sm" className={classes.control} onClick={onLogin}>
           Login as Administator
         </Button>
         </Group>

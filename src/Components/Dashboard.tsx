@@ -27,7 +27,6 @@ export function Dashboard() {
         <Route path="overallAttendance" element={<OverallAttendance />} />
         <Route path="timeSheet" element={<TimeSheet />} />
         <Route path="entryScan" element={<Employee showNavbar={false} />} />
-        <Route path="departmentAnalysis" element={<DepartmentAnalysis />} />
       </Routes>
       </AppShell.Main>
     </AppShell>

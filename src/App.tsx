@@ -7,7 +7,7 @@ import { Employee } from './Pages/Employee/Employee';
 import { Dashboard } from './Components/Dashboard';
 import AuthRoute from './Components/AuthRoute';
 import { Login } from './Pages/Login/Login';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 import { Landing } from './Components/Landing';
 
 function App() {
@@ -15,9 +15,9 @@ function App() {
   return (
     <MantineProvider defaultColorScheme="dark">
       <Routes>
-        <Route path="/" element={<Employee showNavbar />} />
+        <Route path="/" element={<Landing/>} />
+        <Route path="/employee" element={<Employee showNavbar/>} />
         <Route path="/login" element={<Login />} />
-        <Route path="/landing" element = {<Landing />} />
         <Route element={<AuthRoute />}>
             <Route path="/dashboard/*" element={<Dashboard />} />
           </Route>
