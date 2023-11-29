@@ -104,7 +104,7 @@ export function EmployeeRegistration() {
 
     toast.success(
       <Text fw={"700"} c={"green"}>
-        Face Recognize Complete
+        Employee Registered 
       </Text>
     );
 
@@ -128,7 +128,7 @@ export function EmployeeRegistration() {
       );
       toast.success(
         <Text fw={"700"} c={"green"}>
-          Face Recognize Complete
+          Employee Registered
         </Text>
       );
       setTimeout(async () => {
@@ -156,9 +156,10 @@ export function EmployeeRegistration() {
       <Container>
         <div>
           <Paper shadow="xl" p="xl">
-            <Text fw={700} size="xl">
+            <Text fw={800} size="xl">
               Register a New Employee
             </Text>
+            <br/>
             <TextInput
               label="First Name"
               placeholder="Enter the Employee's First name"
@@ -264,6 +265,7 @@ export function EmployeeRegistration() {
               <Text fw={700} size="xl">
                 List of Employees
               </Text>
+              <br/>
               <FilesList
                 list={filesList ?? []}
                 listLoading={listLoading}
@@ -305,7 +307,7 @@ export function EmployeeRegistration() {
                           close()
                         }}
                       >
-                        Scan
+                        Take Photo
                       </Button>
                     </div>
       </Modal>
