@@ -19,7 +19,7 @@ artifacts:
     - public/**/*
     - src/**/*
     - package.json
-    - buildspec.yml
+    - appspec.yml
     - scripts/**/*
     - postcss.config.cjs
     - tsconfig.json
