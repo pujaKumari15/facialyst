@@ -6,7 +6,6 @@ import { EmployeeRegistration } from '../Pages/EmployeeRegistration/EmployeeRegi
 import { Employee } from '../Pages/Employee/Employee';
 import { OverallAttendance } from '../Pages/OverallAttendance/OverallAttendance';
 import { TimeSheet } from '../Pages/TimeSheet/TimeSheet';
-import { EntryScan } from '../Pages/EntryScan/EntryScan';
 import { DepartmentAnalysis } from '../Pages/DepartmentAnalysis/DepartmentAnalysis';
 
 export function Dashboard() {
@@ -27,6 +26,7 @@ export function Dashboard() {
         <Route path="overallAttendance" element={<OverallAttendance />} />
         <Route path="timeSheet" element={<TimeSheet />} />
         <Route path="entryScan" element={<Employee showNavbar={false} />} />
+        <Route path="/departmentAnalysis" element={<DepartmentAnalysis />} />
       </Routes>
       </AppShell.Main>
     </AppShell>
