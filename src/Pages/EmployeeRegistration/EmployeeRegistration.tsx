@@ -178,6 +178,16 @@ export function EmployeeRegistration() {
                 setLastName(e.target.value);
               }}
             />
+            <br />
+            <TextInput
+              label="Employee ID"
+              placeholder="Enter the Employee's ID"
+              classNames={classes}
+              value={lastName}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+            />
 
             <Select
               mt="md"

@@ -13,9 +13,9 @@ export function Header() {
         <header className={classes.header}>
             <div className={classes.inner}>
                 <Group>
-                    <img width="40" height="40" src="https://img.icons8.com/ultraviolet/40/facial-recognition-scan.png" alt="facial-recognition-scan" />
+                    <img width="55" height="55" src="https://img.icons8.com/ultraviolet/40/facial-recognition-scan.png" alt="facial-recognition-scan" />
                     <Text
-                        size="lg"
+                        size="xl"
                         fw={900}
                         variant="gradient"
                         gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
