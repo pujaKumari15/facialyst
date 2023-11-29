@@ -16,7 +16,16 @@ artifacts:
   type: S3
   name: facialyst-build-artifacts         # Specify a name for the artifact
   files:
-    - dist/**   # Adjust path to match build output
+    - public/**/*
+    - src/**/*
+    - package.json
+    - buildspec.yml
+    - scripts/**/*
+    - postcss.config.cjs
+    - tsconfig.json
+    - tsconfig.node.json
+    - vercel.json
+    - vite.config.ts
   discard-paths: no                   # Optionally discard paths
   bucket-paths:
     - facialyst.codedeploy.bucket/build-artifacts   # S3 bucket and folder path
