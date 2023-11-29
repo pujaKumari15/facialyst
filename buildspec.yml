@@ -11,7 +11,12 @@ phases:
     commands:
       - npm run build
 
+# S3 configuration for artifacts
 artifacts:
+  type: S3
+  name: facialyst-build-artifacts         # Specify a name for the artifact
   files:
-    - build/**        # Include all files in the 'build' directory
-  discard-paths: no   # Retain directory structure in artifacts
+    - dist/**   # Adjust path to match build output
+  discard-paths: no                   # Optionally discard paths
+  bucket-paths:
+    - facialyst.codedeploy.bucket/build-artifacts   # S3 bucket and folder path
