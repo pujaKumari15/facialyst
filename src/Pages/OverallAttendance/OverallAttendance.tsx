@@ -19,6 +19,12 @@ export const pieChartData = {
         {
             label: 'employees',
             data: [10578, 4735, 2550],
+            plugins: {
+                    title: {
+                        display: true,
+                        text: 'Daily Statistics'
+                    },
+                },
             backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
